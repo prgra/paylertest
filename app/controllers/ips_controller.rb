@@ -26,6 +26,10 @@ class IpsController < ApplicationController
         logger.debug " get http://freegeoip.net/json/#{ip}"
         uri = URI("http://freegeoip.net/json/#{@ip.ip}")
         req = Net::HTTP.get(uri)
+        dta = JSON.parse(req)
+        co = Country.find_by name:dta["country_name"]
+        logger.debug "country from db #{co}"
+        return req
   end
   # POST /ips
   # POST /ips.json
@@ -37,7 +41,7 @@ class IpsController < ApplicationController
         format.html { redirect_to @ip, notice: 'Ip was successfully created.' }
         format.json { render :show, status: :created, location: @ip }
         dta = JSON.parse(getcountry(@ip.ip))
-        logger.debug dta["country_name"]
+
       else
         format.html { render :new }
         format.json { render json: @ip.errors, status: :unprocessable_entity }
@@ -52,6 +56,9 @@ class IpsController < ApplicationController
       if @ip.update(ip_params)
         format.html { redirect_to @ip, notice: 'Ip was successfully updated.' }
         format.json { render :show, status: :ok, location: @ip }
+        dta = JSON.parse(getcountry(@ip.ip))
+        
+
       else
         format.html { render :edit }
         format.json { render json: @ip.errors, status: :unprocessable_entity }
