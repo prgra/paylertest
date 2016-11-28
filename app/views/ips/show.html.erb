@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Ip:</strong>
+  <%= @ip.ip %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @ip.country %>
+</p>
+
+<%= link_to 'Edit', edit_ip_path(@ip) %> |
+<%= link_to 'Back', ips_path %>
