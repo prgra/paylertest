@@ -21,6 +21,12 @@ class IpsController < ApplicationController
   def edit
   end
 
+
+  def getcountry (ip)
+        logger.debug " get http://freegeoip.net/json/#{ip}"
+        uri = URI("http://freegeoip.net/json/#{@ip.ip}")
+        req = Net::HTTP.get(uri)
+  end
   # POST /ips
   # POST /ips.json
   def create
@@ -30,6 +36,8 @@ class IpsController < ApplicationController
       if @ip.save
         format.html { redirect_to @ip, notice: 'Ip was successfully created.' }
         format.json { render :show, status: :created, location: @ip }
+        dta = JSON.parse(getcountry(@ip.ip))
+        logger.debug dta["country_name"]
       else
         format.html { render :new }
         format.json { render json: @ip.errors, status: :unprocessable_entity }
