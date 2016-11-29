@@ -46,7 +46,6 @@ class IpsController < ApplicationController
         format.html { redirect_to @ip, notice: 'Ip was successfully created.' }
         format.json { render :show, status: :created, location: @ip }
         makecountry(@ip.ip)
-
       else
         format.html { render :new }
         format.json { render json: @ip.errors, status: :unprocessable_entity }
