@@ -22,20 +22,7 @@ class IpsController < ApplicationController
   end
 
 
-  def makecountry (ip)
-        logger.debug " get http://freegeoip.net/json/#{ip}"
-        uri = URI("http://freegeoip.net/json/#{@ip.ip}")
-        req = Net::HTTP.get(uri)
-        dta = JSON.parse(req)
-        co = Country.find_by name:dta["country_name"]
-        if co.nil? 
-          Country.create :name=>dta["country_name"]
-          logger.debug "add country #{dta["country_name"]}"
-          co = Country.find_by name:dta["country_name"]
-        end
-        @ip.update(:country => co.id)
-        return nil
-  end
+  
   # POST /ips
   # POST /ips.json
   def create
