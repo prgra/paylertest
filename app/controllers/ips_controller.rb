@@ -1,5 +1,6 @@
 class IpsController < ApplicationController
   before_action :set_ip, only: [:show, :edit, :update, :destroy]
+  skip_before_action :verify_authenticity_token # может я чего - то не понимаю, но стековерфлов говорит делать так
 
   # GET /ips
   # GET /ips.json
@@ -17,12 +18,10 @@ class IpsController < ApplicationController
     @ip = Ip.new
   end
 
-  # GET /ips/1/edit
+  # GET /ips/1/edito
   def edit
   end
 
-
-  
   # POST /ips
   # POST /ips.json
   def create
@@ -40,8 +39,22 @@ class IpsController < ApplicationController
     end
   end
 
+
   # PATCH/PUT /ips/1
   # PATCH/PUT /ips/1.json
+  def masscreate
+    post_params = JSON.parse(request.body.read)
+    logger.debug post_params
+    post_params.each {|a| 
+      if isip(a["ip"])
+        Ip.create(ip: a["ip"])
+        makecountry(a["ip"])
+      end
+      
+    }
+    render json: { "a": 42}
+  end
+
   def update
     respond_to do |format|
       if @ip.update(ip_params)
