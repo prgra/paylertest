@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :countries
   resources :ips
-  #get "/masscreate" => "ips#masscreate"
+  get "/" => "ips#stats"
   post "/masscreate" => "ips#masscreate"
 end

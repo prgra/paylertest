@@ -16,7 +16,6 @@ def isip (ip)
 end
 
 def makecountry (ip)
-        logger.debug " get http://freegeoip.net/json/#{ip}"
         uri = URI("http://freegeoip.net/json/#{ip}")
         req = Net::HTTP.get(uri)
         dta = JSON.parse(req)
@@ -31,6 +30,3 @@ def makecountry (ip)
         return nil
   end
 
-  def createips (aips) 
-    logger.debug(aips)
-  end

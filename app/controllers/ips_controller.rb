@@ -42,6 +42,14 @@ class IpsController < ApplicationController
 
   # PATCH/PUT /ips/1
   # PATCH/PUT /ips/1.json
+  def stats 
+    stat = ActiveRecord::Base.connection.execute("select c.name,count(ip.id) from countries c 
+      left join ips ip on ip.country = c.id 
+      group by c.id")
+    logger.debug stat
+    render json: stat.to_json
+  end
+
   def masscreate
     post_params = JSON.parse(request.body.read)
     logger.debug post_params
@@ -50,7 +58,6 @@ class IpsController < ApplicationController
         Ip.create(ip: a["ip"])
         makecountry(a["ip"])
       end
-      
     }
     render json: { "a": 42}
   end
