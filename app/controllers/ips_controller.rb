@@ -46,10 +46,6 @@ class IpsController < ApplicationController
     @stat = ActiveRecord::Base.connection.execute("select c.name as country ,count(ip.id) as cnt from countries c 
       left join ips ip on ip.country = c.id 
       group by c.id")
-    @stat.each do |st| 
-      
-      logger.debug st[0]
-    end
     render :stat , stat: @stat
     
   end
