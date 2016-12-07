@@ -43,11 +43,15 @@ class IpsController < ApplicationController
   # PATCH/PUT /ips/1
   # PATCH/PUT /ips/1.json
   def stats 
-    stat = ActiveRecord::Base.connection.execute("select c.name,count(ip.id) from countries c 
+    @stat = ActiveRecord::Base.connection.execute("select c.name as country ,count(ip.id) as cnt from countries c 
       left join ips ip on ip.country = c.id 
       group by c.id")
-    logger.debug stat
-    render json: stat.to_json
+    @stat.each do |st| 
+      
+      logger.debug st[0]
+    end
+    render :stat , stat: @stat
+    
   end
 
   def masscreate

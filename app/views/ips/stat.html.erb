@@ -1,0 +1,23 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Stats</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>count</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stat.each do |st| %>
+      <tr>
+        <td><%= st[0] %></td>
+        <td><%= st[1] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+
